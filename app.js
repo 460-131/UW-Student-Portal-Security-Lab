@@ -21,14 +21,18 @@ const COURSES = [
 const params = new URLSearchParams(location.search);
 const $ = (id) => document.getElementById(id);
 
+let currentUserId = null;
+
 function getSession() {
-  const loggedIn = localStorage.getItem("uiLoggedIn");
-  if (!loggedIn) return null;
+  if (!currentUserId) return null;
 
-  const id = Number(localStorage.getItem("uiUserId") || 0);
-  const u = USERS.find((x) => x.id === id);
+  const u = USERS.find((x) => x.id === currentUserId);
 
-  return u ? { id: u.id, name: u.name, role: u.role } : null;
+  return u ? {
+    id: u.id,
+    name: u.name,
+    role: u.role
+  } : null;
 }
 
 $("loginForm").addEventListener("submit", (e) => {
@@ -37,7 +41,6 @@ $("loginForm").addEventListener("submit", (e) => {
   const email = $("email").value.trim();
   const pw = $("password").value;
 
-  const DEMO_PW = "demo";
   const u = USERS.find((x) => x.email === email);
 
   if (!u || pw.length === 0) {
@@ -45,16 +48,7 @@ $("loginForm").addEventListener("submit", (e) => {
     return;
   }
 
-  localStorage.setItem("uiLoggedIn", "true");
-  localStorage.setItem("uiUserId", String(u.id));
-
-  const next = params.get("next");
-
-  if (next && next.startsWith("/") && !next.startsWith("//")) {
-    location.href = next;
-    return;
-  }
-
+  currentUserId = u.id;
   render();
 });
 
@@ -92,6 +86,7 @@ $("searchForm").addEventListener("submit", (e) => {
   if (hits.length) {
     hits.forEach((c, i) => {
       const line = document.createElement("div");
+
       line.textContent = c;
       out.appendChild(line);
 
@@ -101,15 +96,14 @@ $("searchForm").addEventListener("submit", (e) => {
     });
   } else {
     const none = document.createElement("p");
+
     none.textContent = "No courses match: " + q;
     out.appendChild(none);
   }
 });
 
 $("logout").addEventListener("click", () => {
-  localStorage.removeItem("uiLoggedIn");
-  localStorage.removeItem("uiUserId");
-  localStorage.removeItem("session");
+  currentUserId = null;
   render();
 });
 
@@ -125,6 +119,7 @@ function render() {
   }
 
   const welcomeName = params.get("name") || s.name;
+
   $("welcome").textContent = "Welcome, " + welcomeName;
 
   if (params.get("id")) {
