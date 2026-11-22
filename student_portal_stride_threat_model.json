@@ -1,0 +1,999 @@
+
+{
+  "version": "2.6.2",
+  "summary": {
+    "title": "Student Portal Threat Model",
+    "owner": "Student",
+    "description": "STRIDE threat model identifying security risks in a student portal, including authentication, authorization, student records, browser storage, search functionality and external redirects.",
+    "id": 0
+  },
+  "detail": {
+    "contributors": [],
+    "diagrams": [
+      {
+        "title": "Student Portal Data Flow Diagram",
+        "thumbnail": "./public/content/images/thumbnail.stride.jpg",
+        "diagramType": "STRIDE",
+        "id": 0,
+        "version": "2.6.2",
+        "size": {
+          "width": 1400,
+          "height": 900
+        },
+        "diagramJson": {
+          "cells": [
+            {
+              "type": "tm.Actor",
+              "size": {
+                "width": 160,
+                "height": 80
+              },
+              "position": {
+                "x": 40,
+                "y": 100
+              },
+              "angle": 0,
+              "id": "a1000000-0000-4000-8000-000000000001",
+              "z": 1,
+              "threats": [],
+              "outOfScope": false,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".element-shape": {
+                  "class": "element-shape hasNoOpenThreats isInScope"
+                },
+                "text": {
+                  "text": "Student"
+                },
+                ".undefined": {
+                  "class": "undefinedhasNoOpenThreats isInScope"
+                },
+                ".element-text": {
+                  "class": "element-text hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Actor",
+              "size": {
+                "width": 160,
+                "height": 80
+              },
+              "position": {
+                "x": 40,
+                "y": 350
+              },
+              "angle": 0,
+              "id": "a1000000-0000-4000-8000-000000000002",
+              "z": 2,
+              "threats": [],
+              "outOfScope": false,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".element-shape": {
+                  "class": "element-shape hasNoOpenThreats isInScope"
+                },
+                "text": {
+                  "text": "Administrator"
+                },
+                ".undefined": {
+                  "class": "undefinedhasNoOpenThreats isInScope"
+                },
+                ".element-text": {
+                  "class": "element-text hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Actor",
+              "size": {
+                "width": 160,
+                "height": 80
+              },
+              "position": {
+                "x": 40,
+                "y": 650
+              },
+              "angle": 0,
+              "id": "a1000000-0000-4000-8000-000000000003",
+              "z": 3,
+              "threats": [],
+              "outOfScope": false,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".element-shape": {
+                  "class": "element-shape hasNoOpenThreats isInScope"
+                },
+                "text": {
+                  "text": "Attacker"
+                },
+                ".undefined": {
+                  "class": "undefinedhasNoOpenThreats isInScope"
+                },
+                ".element-text": {
+                  "class": "element-text hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Process",
+              "size": {
+                "width": 120,
+                "height": 100
+              },
+              "position": {
+                "x": 350,
+                "y": 100
+              },
+              "angle": 0,
+              "id": "a1000000-0000-4000-8000-000000000004",
+              "z": 4,
+              "threats": [
+                {
+                  "status": "Open",
+                  "severity": "High",
+                  "title": "Client-side role manipulation",
+                  "type": "Elevation of privilege",
+                  "description": "An attacker can modify the role value stored in browser localStorage and attempt to access administrator functionality without having administrator privileges.",
+                  "mitigation": "Never trust role or permission values stored in the browser. Verify user roles and permissions on the server for every protected request."
+                },
+                {
+                  "status": "Open",
+                  "severity": "High",
+                  "title": "Sensitive information exposed in source code",
+                  "type": "Information disclosure",
+                  "description": "Passwords, CNIC information, API keys or other sensitive information may be exposed if developers place them in client-side HTML or JavaScript code.",
+                  "mitigation": "Never store passwords, private API keys or sensitive personal information in frontend source code. Keep secrets on the server and use environment variables for configuration."
+                }
+              ],
+              "isWebApplication": true,
+              "privilegeLevel": "Limited",
+              "outOfScope": false,
+              "hasOpenThreats": true,
+              "attrs": {
+                ".element-shape": {
+                  "class": "element-shape hasOpenThreats isInScope"
+                },
+                "text": {
+                  "text": "Browser / Frontend"
+                },
+                "#element-process": {
+                  "class": "outOfScopeElement"
+                },
+                ".undefined": {
+                  "class": "undefinedhasOpenThreats isInScope"
+                },
+                ".element-text": {
+                  "class": "element-text hasOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Process",
+              "size": {
+                "width": 120,
+                "height": 100
+              },
+              "position": {
+                "x": 600,
+                "y": 100
+              },
+              "angle": 0,
+              "id": "a1000000-0000-4000-8000-000000000005",
+              "z": 5,
+              "threats": [
+                {
+                  "status": "Open",
+                  "severity": "High",
+                  "title": "Login without server-side verification",
+                  "type": "Spoofing",
+                  "description": "The application may accept a login based only on client-side validation without properly verifying the user's credentials and identity on the server.",
+                  "mitigation": "Perform authentication on the server. Verify passwords securely using a strong password hashing algorithm and issue a secure session after successful authentication."
+                }
+              ],
+              "isWebApplication": true,
+              "privilegeLevel": "Limited",
+              "outOfScope": false,
+              "hasOpenThreats": true,
+              "attrs": {
+                ".element-shape": {
+                  "class": "element-shape hasOpenThreats isInScope"
+                },
+                "text": {
+                  "text": "Login / Authentication"
+                },
+                "#element-process": {
+                  "class": "outOfScopeElement"
+                },
+                ".undefined": {
+                  "class": "undefinedhasOpenThreats isInScope"
+                },
+                ".element-text": {
+                  "class": "element-text hasOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Process",
+              "size": {
+                "width": 120,
+                "height": 100
+              },
+              "position": {
+                "x": 850,
+                "y": 100
+              },
+              "angle": 0,
+              "id": "a1000000-0000-4000-8000-000000000006",
+              "z": 6,
+              "threats": [
+                {
+                  "status": "Open",
+                  "severity": "High",
+                  "title": "Cross-site scripting in search results",
+                  "type": "Tampering",
+                  "description": "An attacker can submit malicious HTML or JavaScript through the search input. If the application renders the input using an unsafe method such as innerHTML, the script may execute in another user's browser.",
+                  "mitigation": "Validate and sanitize user input. Use textContent instead of innerHTML for plain text output. Apply context-aware output encoding and implement a Content Security Policy."
+                },
+                {
+                  "status": "Open",
+                  "severity": "High",
+                  "title": "Unauthorized access to student results",
+                  "type": "Information disclosure",
+                  "description": "A student may change a result ID in a request and access another student's academic results if the server does not verify record ownership.",
+                  "mitigation": "Perform server-side authorization checks on every result request. Verify that the authenticated student is authorized to access the requested record."
+                }
+              ],
+              "isWebApplication": true,
+              "privilegeLevel": "Limited",
+              "outOfScope": false,
+              "hasOpenThreats": true,
+              "attrs": {
+                ".element-shape": {
+                  "class": "element-shape hasOpenThreats isInScope"
+                },
+                "text": {
+                  "text": "Search / Results"
+                },
+                "#element-process": {
+                  "class": "outOfScopeElement"
+                },
+                ".undefined": {
+                  "class": "undefinedhasOpenThreats isInScope"
+                },
+                ".element-text": {
+                  "class": "element-text hasOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Process",
+              "size": {
+                "width": 120,
+                "height": 100
+              },
+              "position": {
+                "x": 850,
+                "y": 350
+              },
+              "angle": 0,
+              "id": "a1000000-0000-4000-8000-000000000007",
+              "z": 7,
+              "threats": [
+                {
+                  "status": "Open",
+                  "severity": "High",
+                  "title": "Unauthorized administrator access",
+                  "type": "Elevation of privilege",
+                  "description": "An attacker who changes a client-side role value may attempt to access administrator functions if the application relies on frontend checks instead of server-side authorization.",
+                  "mitigation": "Enforce role-based access control on the server. Check administrator privileges for every administrative operation and deny unauthorized requests."
+                }
+              ],
+              "isWebApplication": true,
+              "privilegeLevel": "Elevated",
+              "outOfScope": false,
+              "hasOpenThreats": true,
+              "attrs": {
+                ".element-shape": {
+                  "class": "element-shape hasOpenThreats isInScope"
+                },
+                "text": {
+                  "text": "Admin Access"
+                },
+                "#element-process": {
+                  "class": "outOfScopeElement"
+                },
+                ".undefined": {
+                  "class": "undefinedhasOpenThreats isInScope"
+                },
+                ".element-text": {
+                  "class": "element-text hasOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Process",
+              "size": {
+                "width": 120,
+                "height": 100
+              },
+              "position": {
+                "x": 850,
+                "y": 600
+              },
+              "angle": 0,
+              "id": "a1000000-0000-4000-8000-000000000008",
+              "z": 8,
+              "threats": [
+                {
+                  "status": "Open",
+                  "severity": "Medium",
+                  "title": "Unvalidated external redirect",
+                  "type": "Tampering",
+                  "description": "An attacker can manipulate a next parameter in a URL to redirect a user to an attacker-controlled external website.",
+                  "mitigation": "Validate redirect destinations against an allowlist of trusted internal URLs. Reject untrusted external destinations and avoid accepting arbitrary redirect URLs."
+                }
+              ],
+              "isWebApplication": true,
+              "privilegeLevel": "Limited",
+              "outOfScope": false,
+              "hasOpenThreats": true,
+              "attrs": {
+                ".element-shape": {
+                  "class": "element-shape hasOpenThreats isInScope"
+                },
+                "text": {
+                  "text": "Redirect Handler"
+                },
+                "#element-process": {
+                  "class": "outOfScopeElement"
+                },
+                ".undefined": {
+                  "class": "undefinedhasOpenThreats isInScope"
+                },
+                ".element-text": {
+                  "class": "element-text hasOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Store",
+              "size": {
+                "width": 160,
+                "height": 80
+              },
+              "position": {
+                "x": 350,
+                "y": 350
+              },
+              "angle": 0,
+              "id": "a1000000-0000-4000-8000-000000000009",
+              "z": 9,
+              "threats": [
+                {
+                  "status": "Open",
+                  "severity": "High",
+                  "title": "Manipulation of browser-stored roles",
+                  "type": "Elevation of privilege",
+                  "description": "An attacker can modify values such as userRole in localStorage and attempt to impersonate an administrator.",
+                  "mitigation": "Do not use localStorage as an authority for authentication or authorization. Store trusted session information securely and validate permissions on the server."
+                }
+              ],
+              "storesCredentials": true,
+              "outOfScope": false,
+              "hasOpenThreats": true,
+              "attrs": {
+                ".element-shape": {
+                  "class": "element-shape hasOpenThreats isInScope"
+                },
+                "text": {
+                  "text": "Browser LocalStorage"
+                },
+                "#element-shape": {
+                  "class": ""
+                },
+                ".undefined": {
+                  "class": "undefinedhasOpenThreats isInScope"
+                },
+                ".element-text": {
+                  "class": "element-text hasOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Store",
+              "size": {
+                "width": 160,
+                "height": 80
+              },
+              "position": {
+                "x": 1100,
+                "y": 200
+              },
+              "angle": 0,
+              "id": "a1000000-0000-4000-8000-000000000010",
+              "z": 10,
+              "threats": [],
+              "storesCredentials": true,
+              "outOfScope": false,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".element-shape": {
+                  "class": "element-shape hasNoOpenThreats isInScope"
+                },
+                "text": {
+                  "text": "Student Database"
+                },
+                "#element-shape": {
+                  "class": ""
+                },
+                ".undefined": {
+                  "class": "undefinedhasNoOpenThreats isInScope"
+                },
+                ".element-text": {
+                  "class": "element-text hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Actor",
+              "size": {
+                "width": 160,
+                "height": 80
+              },
+              "position": {
+                "x": 1100,
+                "y": 600
+              },
+              "angle": 0,
+              "id": "a1000000-0000-4000-8000-000000000011",
+              "z": 11,
+              "threats": [],
+              "outOfScope": false,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".element-shape": {
+                  "class": "element-shape hasNoOpenThreats isInScope"
+                },
+                "text": {
+                  "text": "External Website"
+                },
+                ".undefined": {
+                  "class": "undefinedhasNoOpenThreats isInScope"
+                },
+                ".element-text": {
+                  "class": "element-text hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Flow",
+              "size": {
+                "width": 10,
+                "height": 10
+              },
+              "smooth": true,
+              "source": {
+                "id": "a1000000-0000-4000-8000-000000000001"
+              },
+              "target": {
+                "id": "a1000000-0000-4000-8000-000000000004"
+              },
+              "vertices": [],
+              "id": "b2000000-0000-4000-8000-000000000001",
+              "z": 12,
+              "labels": [
+                {
+                  "position": 0.5,
+                  "attrs": {
+                    "text": {
+                      "text": "Login / Search Request",
+                      "font-weight": "400",
+                      "font-size": "small"
+                    }
+                  }
+                }
+              ],
+              "threats": [],
+              "isPublicNetwork": true,
+              "isEncrypted": true,
+              "protocol": "HTTPS",
+              "outOfScope": false,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".marker-target": {
+                  "class": "marker-target hasNoOpenThreats isInScope"
+                },
+                ".connection": {
+                  "class": "connection hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Flow",
+              "size": {
+                "width": 10,
+                "height": 10
+              },
+              "smooth": true,
+              "source": {
+                "id": "a1000000-0000-4000-8000-000000000004"
+              },
+              "target": {
+                "id": "a1000000-0000-4000-8000-000000000005"
+              },
+              "vertices": [],
+              "id": "b2000000-0000-4000-8000-000000000002",
+              "z": 13,
+              "labels": [
+                {
+                  "position": 0.5,
+                  "attrs": {
+                    "text": {
+                      "text": "Authentication Data",
+                      "font-weight": "400",
+                      "font-size": "small"
+                    }
+                  }
+                }
+              ],
+              "threats": [],
+              "isPublicNetwork": false,
+              "isEncrypted": true,
+              "protocol": "Internal HTTPS",
+              "outOfScope": false,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".marker-target": {
+                  "class": "marker-target hasNoOpenThreats isInScope"
+                },
+                ".connection": {
+                  "class": "connection hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Flow",
+              "size": {
+                "width": 10,
+                "height": 10
+              },
+              "smooth": true,
+              "source": {
+                "id": "a1000000-0000-4000-8000-000000000005"
+              },
+              "target": {
+                "id": "a1000000-0000-4000-8000-000000000010"
+              },
+              "vertices": [],
+              "id": "b2000000-0000-4000-8000-000000000003",
+              "z": 14,
+              "labels": [
+                {
+                  "position": 0.5,
+                  "attrs": {
+                    "text": {
+                      "text": "Credential Verification",
+                      "font-weight": "400",
+                      "font-size": "small"
+                    }
+                  }
+                }
+              ],
+              "threats": [],
+              "isPublicNetwork": false,
+              "isEncrypted": true,
+              "protocol": "Database Connection",
+              "outOfScope": false,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".marker-target": {
+                  "class": "marker-target hasNoOpenThreats isInScope"
+                },
+                ".connection": {
+                  "class": "connection hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Flow",
+              "size": {
+                "width": 10,
+                "height": 10
+              },
+              "smooth": true,
+              "source": {
+                "id": "a1000000-0000-4000-8000-000000000005"
+              },
+              "target": {
+                "id": "a1000000-0000-4000-8000-000000000004"
+              },
+              "vertices": [],
+              "id": "b2000000-0000-4000-8000-000000000004",
+              "z": 15,
+              "labels": [
+                {
+                  "position": 0.5,
+                  "attrs": {
+                    "text": {
+                      "text": "Login Response / Session",
+                      "font-weight": "400",
+                      "font-size": "small"
+                    }
+                  }
+                }
+              ],
+              "threats": [],
+              "isPublicNetwork": false,
+              "isEncrypted": true,
+              "protocol": "HTTPS",
+              "outOfScope": false,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".marker-target": {
+                  "class": "marker-target hasNoOpenThreats isInScope"
+                },
+                ".connection": {
+                  "class": "connection hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Flow",
+              "size": {
+                "width": 10,
+                "height": 10
+              },
+              "smooth": true,
+              "source": {
+                "id": "a1000000-0000-4000-8000-000000000004"
+              },
+              "target": {
+                "id": "a1000000-0000-4000-8000-000000000009"
+              },
+              "vertices": [],
+              "id": "b2000000-0000-4000-8000-000000000005",
+              "z": 16,
+              "labels": [
+                {
+                  "position": 0.5,
+                  "attrs": {
+                    "text": {
+                      "text": "Read / Write Browser Storage",
+                      "font-weight": "400",
+                      "font-size": "small"
+                    }
+                  }
+                }
+              ],
+              "threats": [],
+              "isPublicNetwork": false,
+              "isEncrypted": false,
+              "outOfScope": false,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".marker-target": {
+                  "class": "marker-target hasNoOpenThreats isInScope"
+                },
+                ".connection": {
+                  "class": "connection hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Flow",
+              "size": {
+                "width": 10,
+                "height": 10
+              },
+              "smooth": true,
+              "source": {
+                "id": "a1000000-0000-4000-8000-000000000004"
+              },
+              "target": {
+                "id": "a1000000-0000-4000-8000-000000000006"
+              },
+              "vertices": [],
+              "id": "b2000000-0000-4000-8000-000000000006",
+              "z": 17,
+              "labels": [
+                {
+                  "position": 0.5,
+                  "attrs": {
+                    "text": {
+                      "text": "Search / Results Request",
+                      "font-weight": "400",
+                      "font-size": "small"
+                    }
+                  }
+                }
+              ],
+              "threats": [],
+              "isPublicNetwork": false,
+              "isEncrypted": true,
+              "protocol": "HTTPS",
+              "outOfScope": false,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".marker-target": {
+                  "class": "marker-target hasNoOpenThreats isInScope"
+                },
+                ".connection": {
+                  "class": "connection hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Flow",
+              "size": {
+                "width": 10,
+                "height": 10
+              },
+              "smooth": true,
+              "source": {
+                "id": "a1000000-0000-4000-8000-000000000006"
+              },
+              "target": {
+                "id": "a1000000-0000-4000-8000-000000000010"
+              },
+              "vertices": [],
+              "id": "b2000000-0000-4000-8000-000000000007",
+              "z": 18,
+              "labels": [
+                {
+                  "position": 0.5,
+                  "attrs": {
+                    "text": {
+                      "text": "Student Record Query",
+                      "font-weight": "400",
+                      "font-size": "small"
+                    }
+                  }
+                }
+              ],
+              "threats": [],
+              "isPublicNetwork": false,
+              "isEncrypted": true,
+              "protocol": "Database Connection",
+              "outOfScope": false,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".marker-target": {
+                  "class": "marker-target hasNoOpenThreats isInScope"
+                },
+                ".connection": {
+                  "class": "connection hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Flow",
+              "size": {
+                "width": 10,
+                "height": 10
+              },
+              "smooth": true,
+              "source": {
+                "id": "a1000000-0000-4000-8000-000000000010"
+              },
+              "target": {
+                "id": "a1000000-0000-4000-8000-000000000006"
+              },
+              "vertices": [],
+              "id": "b2000000-0000-4000-8000-000000000008",
+              "z": 19,
+              "labels": [
+                {
+                  "position": 0.5,
+                  "attrs": {
+                    "text": {
+                      "text": "Student Results",
+                      "font-weight": "400",
+                      "font-size": "small"
+                    }
+                  }
+                }
+              ],
+              "threats": [],
+              "isPublicNetwork": false,
+              "isEncrypted": true,
+              "protocol": "Database Connection",
+              "outOfScope": false,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".marker-target": {
+                  "class": "marker-target hasNoOpenThreats isInScope"
+                },
+                ".connection": {
+                  "class": "connection hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Flow",
+              "size": {
+                "width": 10,
+                "height": 10
+              },
+              "smooth": true,
+              "source": {
+                "id": "a1000000-0000-4000-8000-000000000002"
+              },
+              "target": {
+                "id": "a1000000-0000-4000-8000-000000000007"
+              },
+              "vertices": [],
+              "id": "b2000000-0000-4000-8000-000000000009",
+              "z": 20,
+              "labels": [
+                {
+                  "position": 0.5,
+                  "attrs": {
+                    "text": {
+                      "text": "Administrator Request",
+                      "font-weight": "400",
+                      "font-size": "small"
+                    }
+                  }
+                }
+              ],
+              "threats": [],
+              "isPublicNetwork": true,
+              "isEncrypted": true,
+              "protocol": "HTTPS",
+              "outOfScope": false,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".marker-target": {
+                  "class": "marker-target hasNoOpenThreats isInScope"
+                },
+                ".connection": {
+                  "class": "connection hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Flow",
+              "size": {
+                "width": 10,
+                "height": 10
+              },
+              "smooth": true,
+              "source": {
+                "id": "a1000000-0000-4000-8000-000000000007"
+              },
+              "target": {
+                "id": "a1000000-0000-4000-8000-000000000010"
+              },
+              "vertices": [],
+              "id": "b2000000-0000-4000-8000-000000000010",
+              "z": 21,
+              "labels": [
+                {
+                  "position": 0.5,
+                  "attrs": {
+                    "text": {
+                      "text": "Admin Database Operations",
+                      "font-weight": "400",
+                      "font-size": "small"
+                    }
+                  }
+                }
+              ],
+              "threats": [],
+              "isPublicNetwork": false,
+              "isEncrypted": true,
+              "protocol": "Database Connection",
+              "outOfScope": false,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".marker-target": {
+                  "class": "marker-target hasNoOpenThreats isInScope"
+                },
+                ".connection": {
+                  "class": "connection hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Flow",
+              "size": {
+                "width": 10,
+                "height": 10
+              },
+              "smooth": true,
+              "source": {
+                "id": "a1000000-0000-4000-8000-000000000008"
+              },
+              "target": {
+                "id": "a1000000-0000-4000-8000-000000000011"
+              },
+              "vertices": [],
+              "id": "b2000000-0000-4000-8000-000000000011",
+              "z": 22,
+              "labels": [
+                {
+                  "position": 0.5,
+                  "attrs": {
+                    "text": {
+                      "text": "External Redirect",
+                      "font-weight": "400",
+                      "font-size": "small"
+                    }
+                  }
+                }
+              ],
+              "threats": [
+                {
+                  "status": "Open",
+                  "severity": "Medium",
+                  "title": "Reverse tabnabbing through external links",
+                  "type": "Tampering",
+                  "description": "An external website opened in a new tab may access the original page through window.opener and attempt to redirect or manipulate it.",
+                  "mitigation": "Use rel=\"noopener noreferrer\" on links that open in a new tab. Set window.opener to null where appropriate and avoid unsafe external navigation."
+                }
+              ],
+              "isPublicNetwork": true,
+              "isEncrypted": true,
+              "protocol": "HTTPS",
+              "outOfScope": false,
+              "hasOpenThreats": true,
+              "attrs": {
+                ".marker-target": {
+                  "class": "marker-target hasOpenThreats isInScope"
+                },
+                ".connection": {
+                  "class": "connection hasOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Flow",
+              "size": {
+                "width": 10,
+                "height": 10
+              },
+              "smooth": true,
+              "source": {
+                "id": "a1000000-0000-4000-8000-000000000003"
+              },
+              "target": {
+                "id": "a1000000-0000-4000-8000-000000000004"
+              },
+              "vertices": [],
+              "id": "b2000000-0000-4000-8000-000000000012",
+              "z": 23,
+              "labels": [
+                {
+                  "position": 0.5,
+                  "attrs": {
+                    "text": {
+                      "text": "Malicious Requests",
+                      "font-weight": "400",
+                      "font-size": "small"
+                    }
+                  }
+                }
+              ],
+              "threats": [],
+              "isPublicNetwork": true,
+              "isEncrypted": true,
+              "protocol": "HTTPS",
+              "outOfScope": false,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".marker-target": {
+                  "class": "marker-target hasNoOpenThreats isInScope"
+                },
+                ".connection": {
+                  "class": "connection hasNoOpenThreats isInScope"
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "reviewer": ""
+}
